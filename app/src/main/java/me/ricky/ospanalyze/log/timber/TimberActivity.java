@@ -1,21 +1,24 @@
 package me.ricky.ospanalyze.log.timber;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
+import me.ricky.ospanalyze.App;
 import me.ricky.ospanalyze.R;
+import me.ricky.ospanalyze.utils.PermissionUtils;
+import me.ricky.ospanalyze.utils.UIHelper;
 import timber.log.Timber;
 
+/**
+ * @author liteng
+ */
 public class TimberActivity extends AppCompatActivity {
 
     private static final int CODE = 0x001;
 
-    private static final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +27,12 @@ public class TimberActivity extends AppCompatActivity {
 
         requestPermission();
 
-
     }
 
     private void requestPermission() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(PERMISSIONS, CODE);
+            requestPermissions(App.P.PERMISSIONS, CODE);
         }
-
     }
 
 
@@ -41,19 +41,23 @@ public class TimberActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case CODE:
-                if (permissions[0].equals(PERMISSIONS[0])) {
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        dealPermissionOK();
-                    }
+
+                boolean isStorePermissionOk =  PermissionUtils.isStorePermissionOk(permissions,grantResults);
+                if (isStorePermissionOk) {
+                    dealStorePermissionOk();
                 }
+
+                break;
+            default:
                 break;
         }
     }
 
-    private void dealPermissionOK() {
-        Timber.tag("Timber");
+    private void dealStorePermissionOk() {
+        UIHelper.toast("可以访问存储设备");
+    }
 
-        Timber.e("this is TimberActivity onCreate()");
-
+    public void printLog(View view) {
+        Timber.d("this is TimberActivity onCreate()");
     }
 }

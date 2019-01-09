@@ -17,8 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".log.LogActivity"></activity>
+        <activity android:name=".log.LogActivity" />
         <activity android:name=".log.timber.TimberActivity" />
+        <activity android:name=".sp.SpUtilsActivity"></activity>
     </application>
 
 </manifest>

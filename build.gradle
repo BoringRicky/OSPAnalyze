@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,7 +30,7 @@ task clean(type: Delete) {
 ext{
     dep = [
             s4:"com.android.support:support-v4:$SUPPORT_LIBRARIES_VERSION",
-            s7:"com.android.support:appcompat-v7:$APPCOMPAT_LIBRARIES_VERSION"
-
+            s7:"com.android.support:appcompat-v7:$SUPPORT_LIBRARIES_VERSION",
+            timber:"com.jakewharton.timber:timber:$TIMBER_VERSION"
     ]
 }

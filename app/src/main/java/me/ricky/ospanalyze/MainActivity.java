@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import me.ricky.ospanalyze.log.LogActivity;
+import me.ricky.ospanalyze.sp.SpUtilsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,5 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onLogs(View view) {
         startActivity(new Intent(this, LogActivity.class));
+    }
+
+    public void onSpUtils(View view) {
+        startActivity(new Intent(this, SpUtilsActivity.class));
     }
 }
