@@ -1,15 +1,13 @@
 package me.ricky.ospanalyze.sp;
 
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.Map;
 
-import me.li.ricky.common.utils.SpUtils;
+import me.li.ricky.common.utils.SpUtil;
 import me.ricky.ospanalyze.R;
 
 /**
@@ -22,18 +20,18 @@ public class SpUtilsActivity extends AppCompatActivity {
 
     private TextView mTvSpName;
     private TextView mTvSpContent;
-    private SpUtils mUtils;
+    private SpUtil mUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_utils);
-//        mUtils = SpUtils.init(this);
-        mUtils = SpUtils.init(this,"sp_test");
+//        mUtils = SpUtil.init(this);
+        mUtils = SpUtil.init(this,"sp_test");
         mTvSpName = findViewById(R.id.tv_sp_name);
         mTvSpContent = findViewById(R.id.tv_sp_content);
 
-        mTvSpName.setText("SharedPreferences 文件名称 ： "+SpUtils.getCurrentSpName());
+        mTvSpName.setText("SharedPreferences 文件名称 ： "+SpUtil.getCurrentSpName());
     }
 
     public void onPutCommit(View view) {

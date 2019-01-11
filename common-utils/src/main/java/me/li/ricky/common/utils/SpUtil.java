@@ -11,27 +11,33 @@ import java.util.Set;
 
 /**
  * SharedPreferences 工具类，不支持多进程
- * 提供自定义 SharedPreferences 文件的名称
+ * 提供自定义 SharedPreferences 文件的名称;init(Context);init(Context,String)
  * <p>
  * 同时提供 putCommit() 和 putApply() 两种方式存储数据
+ * <p>
+ * putCommit() 使用的是SharedPreferences.Editor.commit() 提交数据，该操作是同步，会返回该操作的结果
+ * <p>
+ * putApply() 使用的是SharedPreferences.Editor.apply() 提交数据，该操作是异步;它会立即在内存中修改你的提交，然后开启一个异步的提交去修改磁盘上数据，但是它只管执行，如果遇到也不会返回任何错误信息。
+ * 如果其他的Editor对SharedPreferences有个commit提交，只能等到当前的apply()操作完成之后才会执行。
+ * 由于 SharedPreferences 在当前进程中只会存在一个实例，如果不关心返回值，完全可以使用apply()替换掉commit().不用担心其它组件的生命周期的切换会对apply()有影响，系统确定会在组件切换生命周期前完全执行完apply()
  *
  * @author RickyLi
  */
-public class SpUtils {
+public class SpUtil {
 
-    private static final String TAG = "SpUtils";
+    private static final String TAG = "SpUtil";
 
-    private static SpUtils sUtils;
+    private static SpUtil sUtil;
     private static Context sContext;
     private static String sCurrentSpName;
     private static SharedPreferences sPreferences;
     private static SharedPreferences.Editor sEditor;
 
-    private SpUtils(Context context) {
+    private SpUtil(Context context) {
         this(context, null);
     }
 
-    private SpUtils(Context context, String spName) {
+    private SpUtil(Context context, String spName) {
         sContext = context.getApplicationContext();
         if (TextUtils.isEmpty(spName)) {
             sPreferences = PreferenceManager.getDefaultSharedPreferences(sContext);
@@ -48,22 +54,22 @@ public class SpUtils {
         sEditor = sPreferences.edit();
     }
 
-    public static SpUtils init(Context context) {
-        if (sUtils == null) {
-            sUtils = new SpUtils(context);
+    public static SpUtil init(Context context) {
+        if (sUtil == null) {
+            sUtil = new SpUtil(context);
         }
 
-        return sUtils;
+        return sUtil;
     }
 
-    public static SpUtils init(Context context, String spName) {
-        if (sUtils == null) {
-            sUtils = new SpUtils(context, spName);
+    public static SpUtil init(Context context, String spName) {
+        if (sUtil == null) {
+            sUtil = new SpUtil(context, spName);
         } else if (!TextUtils.equals(sCurrentSpName, spName)) {
-            sUtils = new SpUtils(context, spName);
+            sUtil = new SpUtil(context, spName);
         }
 
-        return sUtils;
+        return sUtil;
     }
 
     public static String getCurrentSpName() {
@@ -114,40 +120,40 @@ public class SpUtils {
         return sPreferences.getStringSet(key, defaultValue);
     }
 
-    public SpUtils putApply(String key, String value) {
+    public SpUtil putApply(String key, String value) {
         sEditor.putString(key, value);
         sEditor.apply();
-        return sUtils;
+        return sUtil;
     }
 
-    public SpUtils putApply(String key, int value) {
+    public SpUtil putApply(String key, int value) {
         sEditor.putInt(key, value);
         sEditor.apply();
-        return sUtils;
+        return sUtil;
     }
 
-    public SpUtils putApply(String key, boolean value) {
+    public SpUtil putApply(String key, boolean value) {
         sEditor.putBoolean(key, value);
         sEditor.apply();
-        return sUtils;
+        return sUtil;
     }
 
-    public SpUtils putApply(String key, float value) {
+    public SpUtil putApply(String key, float value) {
         sEditor.putFloat(key, value);
         sEditor.apply();
-        return sUtils;
+        return sUtil;
     }
 
-    public SpUtils putApply(String key, long value) {
+    public SpUtil putApply(String key, long value) {
         sEditor.putLong(key, value);
         sEditor.apply();
-        return sUtils;
+        return sUtil;
     }
 
-    public SpUtils putApply(String key, Set<String> value) {
+    public SpUtil putApply(String key, Set<String> value) {
         sEditor.putStringSet(key, value);
         sEditor.apply();
-        return sUtils;
+        return sUtil;
     }
 
     public boolean putCommit(String key, String value) {
