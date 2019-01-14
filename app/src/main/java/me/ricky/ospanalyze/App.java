@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 
+import me.li.ricky.common.utils.CrashHandler;
+import me.li.ricky.common.utils.T;
 import me.ricky.ospanalyze.log.timber.trees.CrashReportingTree;
 import me.ricky.ospanalyze.log.timber.trees.DebugTree;
 import timber.log.Timber;
@@ -26,6 +28,11 @@ public class App extends Application {
 
         Timber.plant(new DebugTree());
         Timber.plant(new CrashReportingTree());
+
+        CrashHandler.getInstance().init(this);
+
+        T.register(sContext);
+
     }
 
     public static Context getContext() {

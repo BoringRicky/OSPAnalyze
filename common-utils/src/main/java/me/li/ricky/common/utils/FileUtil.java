@@ -1,5 +1,9 @@
+package me.li.ricky.common.utils;
+
+import android.text.TextUtils;
 
 import java.io.*;
+import java.util.Locale;
 
 /**
  * @author liteng
@@ -8,6 +12,81 @@ public class FileUtil {
     public static final String DEFAULT_CHARSET = "utf-8";
 
     private static final int DEFAULT_BUFFER_SIZE = 8192;
+
+    /** 1024 * 1024 * 1024 */
+    public static final long GB = 1073741824;
+    /** 1024 * 1024 */
+    public static final long MB = 1048576;
+    public static final long KB = 1024;
+
+    /**
+     * 从路径中获取文件全名
+     *
+     * @param filePath 文件路径
+     * @return 从路径中获取的文件全名
+     */
+    public static String getFileNameInPath(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            return filePath;
+        }
+
+        int lastSeparator = filePath.lastIndexOf(File.separator);
+        return filePath.substring(lastSeparator + 1);
+    }
+
+    /**
+     * 从路径中获取文件后缀
+     *
+     * @param filePath 文件路径
+     * @return 从路径中获取的文件后缀
+     */
+    public static String getFileSuffix(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            return filePath;
+        }
+
+        int lastSeparator = filePath.lastIndexOf(".");
+        return filePath.substring(lastSeparator + 1);
+    }
+
+
+    /**
+     * 文件大小获取
+     *
+     * @param path 文件路径
+     * @return 文件大小字符串
+     */
+    public static String getSize(String path) {
+        File file = new File(path);
+        return getSize(file);
+    }
+
+    /**
+     * 文件大小获取
+     *
+     * @param file File对象
+     * @return 文件大小字符串
+     */
+    public static String getSize(File file) {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            int length = fis.available();
+            if (length >= GB) {
+                return String.format(Locale.getDefault(), "%.2f GB", length * 1.0f / GB);
+            } else if (length >= MB) {
+                return String.format(Locale.getDefault(), "%.2f MB", length * 1.0f / MB);
+            } else {
+                return String.format(Locale.getDefault(), "%.2f KB", length * 1.0f / KB);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(fis);
+        }
+        return "未知";
+    }
+
 
     public static boolean exists(String filePath) {
         File file = new File(filePath);
@@ -146,6 +225,29 @@ public class FileUtil {
         return dir.delete();
     }
 
+    /**
+     * 输入流转byte[]
+     *
+     * @param inStream InputStream
+     * @return Byte数组
+     */
+    public static final byte[] input2byte(InputStream inStream) {
+        if (inStream == null) {
+            return null;
+        }
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[100];
+        int rc = 0;
+        try {
+            while ((rc = inStream.read(buff, 0, 100)) > 0) {
+                swapStream.write(buff, 0, rc);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return swapStream.toByteArray();
+    }
+
 
     public static void close(Reader reader) {
         try {
@@ -161,6 +263,16 @@ public class FileUtil {
         try {
             if (writer != null) {
                 writer.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close(FileInputStream fis) {
+        try {
+            if (fis != null) {
+                fis.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
