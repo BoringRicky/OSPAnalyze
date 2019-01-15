@@ -13,6 +13,7 @@ import java.util.Map;
 
 import me.li.ricky.common.utils.DeviceInfo;
 import me.li.ricky.common.utils.FileUtil;
+import me.li.ricky.common.utils.T;
 import me.ricky.ospanalyze.log.LogActivity;
 import me.ricky.ospanalyze.sp.SpUtilsActivity;
 
@@ -83,5 +84,9 @@ public class MainActivity extends AppCompatActivity {
         builder.append(FileUtil.getFileSuffix(filePath));
 
         mTextView.setText(builder.toString());
+    }
+
+    public void onToast(View view) {
+        T.showLong("Toast show long");
     }
 }

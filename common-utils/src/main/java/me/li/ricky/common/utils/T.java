@@ -3,52 +3,97 @@ package me.li.ricky.common.utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.widget.Toast;
 
 public class T {
+    private static final int DEFAULT_GRAVITY = -1;
 
-    private static Toast sToast;
     private static Context sContext;
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private static Handler mHandler = new Handler(Looper.getMainLooper());
 
     private T() {
     }
 
     public static void register(Context context) {
-        sContext = context.getApplicationContext();
+        if (sContext == null) {
+            sContext = context.getApplicationContext();
+        }
     }
 
-    public static void showShort(int resId) {
-        check();
-        if (toastNull()) {
-            sToast = Toast.makeText(sContext, resId, Toast.LENGTH_SHORT);
+    /** 自定义Toast View */
+    public static void makeTextShortCenter(View customView, int gravity) {
+        Toast toast = new Toast(sContext);
+        toast.setView(customView);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        if (gravity != DEFAULT_GRAVITY) {
+            toast.setGravity(gravity, 0, 0);
         }
-        sToast.show();
+        toast.show();
+    }
+
+    public static void showShort(final int resId) {
+        showShort(resId, DEFAULT_GRAVITY);
     }
 
     public static void showShort(String message) {
-        check();
-        if (toastNull()) {
-            sToast = Toast.makeText(sContext, message, Toast.LENGTH_SHORT);
-        }
-        sToast.show();
+        showShort(message, DEFAULT_GRAVITY);
+    }
+
+    public static void showShort(String message, int gravity) {
+        show(message, Toast.LENGTH_SHORT, gravity);
+    }
+
+    public static void showShort(int messageResId, int gravity) {
+        show(messageResId, Toast.LENGTH_SHORT, gravity);
     }
 
     public static void showLong(int resId) {
-        check();
-        if (toastNull()) {
-            sToast = Toast.makeText(sContext, resId, Toast.LENGTH_LONG);
-        }
-        sToast.show();
+        showLong(resId, DEFAULT_GRAVITY);
     }
 
     public static void showLong(String message) {
-        check();
-        if (toastNull()) {
-            sToast = Toast.makeText(sContext, message, Toast.LENGTH_LONG);
-        }
-        sToast.show();
+        showLong(message, DEFAULT_GRAVITY);
     }
+
+    public static void showLong(int messageResId, int gravity) {
+        show(messageResId, Toast.LENGTH_LONG, gravity);
+    }
+
+    public static void showLong(String message, int gravity) {
+        show(message, Toast.LENGTH_LONG, gravity);
+    }
+
+    private static void show(final int messageResId, final int duration, final int gravity) {
+        check();
+
+        showOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Toast toast = Toast.makeText(sContext, messageResId, duration);
+                if (gravity != DEFAULT_GRAVITY) {
+                    toast.setGravity(gravity, 0, 0);
+                }
+                toast.show();
+            }
+        });
+    }
+
+    private static void show(final String message, final int duration, final int gravity) {
+        check();
+
+        showOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Toast toast = Toast.makeText(sContext, message, duration);
+                if (gravity != DEFAULT_GRAVITY) {
+                    toast.setGravity(gravity, 0, 0);
+                }
+                toast.show();
+            }
+        });
+    }
+
 
     private static void check() {
         if (sContext == null) {
@@ -56,15 +101,19 @@ public class T {
         }
     }
 
-    private static boolean toastNull() {
-        return sToast == null;
+    private static void showOnUiThread(Runnable action) {
+        if (inUiThread()) {
+            action.run();
+        } else {
+            runOnUiThread(action);
+        }
     }
 
-    public boolean inUiThread() {
+    private static boolean inUiThread() {
         return Looper.myLooper() == Looper.getMainLooper();
     }
 
-    public void runOnUiThread(Runnable action) {
+    private static void runOnUiThread(Runnable action) {
         mHandler.post(action);
     }
 
