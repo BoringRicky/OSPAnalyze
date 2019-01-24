@@ -8,7 +8,7 @@ import java.util.Locale;
 /**
  * @author liteng
  */
-public class FileUtil {
+public class IOUtil {
     public static final String DEFAULT_CHARSET = "utf-8";
 
     private static final int DEFAULT_BUFFER_SIZE = 8192;
@@ -94,11 +94,7 @@ public class FileUtil {
     }
 
     public static boolean exists(File file) {
-        if (file != null && file.exists()) {
-            return true;
-        }
-
-        return false;
+        return file != null && file.exists();
     }
 
     public static boolean createFileNotExists(String filePath) {
@@ -131,7 +127,7 @@ public class FileUtil {
     }
 
     public static String readFile(File file) {
-        InputStreamReader isr = null;
+        InputStreamReader isr;
         BufferedReader bufferedReader = null;
         StringBuilder builder = new StringBuilder();
         try {
@@ -231,13 +227,13 @@ public class FileUtil {
      * @param inStream InputStream
      * @return Byte数组
      */
-    public static final byte[] input2byte(InputStream inStream) {
+    public static byte[] input2byte(InputStream inStream) {
         if (inStream == null) {
             return null;
         }
         ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
         byte[] buff = new byte[100];
-        int rc = 0;
+        int rc;
         try {
             while ((rc = inStream.read(buff, 0, 100)) > 0) {
                 swapStream.write(buff, 0, rc);

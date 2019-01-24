@@ -25,8 +25,6 @@ import java.util.Set;
  */
 public class SpUtil {
 
-    private static final String TAG = "SpUtil";
-
     private static SpUtil sUtil;
     private static Context sContext;
     private static String sCurrentSpName;
@@ -39,6 +37,8 @@ public class SpUtil {
 
     private SpUtil(Context context, String spName) {
         sContext = context.getApplicationContext();
+
+        // 如果不指定 SharedPreferences 的名字，则以 包名__preferences 方式存储
         if (TextUtils.isEmpty(spName)) {
             sPreferences = PreferenceManager.getDefaultSharedPreferences(sContext);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -54,19 +54,37 @@ public class SpUtil {
         sEditor = sPreferences.edit();
     }
 
-    public static SpUtil init(Context context) {
+    /**
+     * 将SpUtil 注册到 app中，这是使用该工具的第一步。
+     *
+     * @param context 上下文对象
+     */
+    public static void register(Context context) {
+        sContext = context.getApplicationContext();
+    }
+
+    /**
+     * 如果不指定 SharedPreferences 的名字，则以 包名__preferences 方式存储
+     *
+     * @return SpUtil 的引用
+     */
+    public static SpUtil init() {
+        checkNull();
+
         if (sUtil == null) {
-            sUtil = new SpUtil(context);
+            sUtil = new SpUtil(sContext);
         }
 
         return sUtil;
     }
 
-    public static SpUtil init(Context context, String spName) {
+    public static SpUtil init(String spName) {
+        checkNull();
+
         if (sUtil == null) {
-            sUtil = new SpUtil(context, spName);
+            sUtil = new SpUtil(sContext, spName);
         } else if (!TextUtils.equals(sCurrentSpName, spName)) {
-            sUtil = new SpUtil(context, spName);
+            sUtil = new SpUtil(sContext, spName);
         }
 
         return sUtil;
@@ -186,5 +204,10 @@ public class SpUtil {
         return sEditor.commit();
     }
 
+    private static void checkNull() {
+        if (sContext == null){
+            throw new NullPointerException("请先在 Application 里的 onCreate() 调用 SpUtil.register(Context) , 对 SpUtil 进行注册");
+        }
+    }
 
 }

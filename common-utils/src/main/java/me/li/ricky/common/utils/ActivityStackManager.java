@@ -5,9 +5,12 @@ import android.app.Activity;
 import java.util.Iterator;
 import java.util.Stack;
 
+/**
+ * @author liteng
+ */
 public class ActivityStackManager {
 
-    private Stack<Activity> mActivityStack = new Stack();
+    private Stack<Activity> mActivityStack = new Stack<>();
 
     private ActivityStackManager() {
     }
@@ -25,7 +28,7 @@ public class ActivityStackManager {
     }
 
     public void removeActivity(Activity activity) {
-        if (mActivityStack != null && mActivityStack.size() > 0) {
+        if (notEmpty()) {
             if (activity != null && mActivityStack.contains(activity)) {
                 mActivityStack.remove(activity);
             }
@@ -33,7 +36,7 @@ public class ActivityStackManager {
     }
 
     public void finishActivity(Activity activity) {
-        if (mActivityStack != null && mActivityStack.size() > 0) {
+        if (notEmpty()) {
             if (activity != null && mActivityStack.contains(activity)) {
                 mActivityStack.remove(activity);
                 activity.finish();

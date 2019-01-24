@@ -1,6 +1,5 @@
 package me.li.ricky.common.utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.io.PrintWriter;
@@ -11,11 +10,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * @author liteng
+ */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private static final String TAG = "CrashHandler";
 
-    private Context mContext;
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
     private CrashHandler() {
@@ -31,28 +32,24 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return InstanceHolder.INSTANCE;
     }
 
-
-    public void init(Context context){
-        mContext = context;
-    }
-
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-//        getCause(e);  collectDeviceInfo();
-        Log.e(TAG,assembleLog(e));
+        Log.e(TAG, assembleLog(e));
+        // 根据具体需求写入文件或是上传云端
     }
 
 
-    private String assembleLog(Throwable throwable){
+    private String assembleLog(Throwable throwable) {
         String cause = getCause(throwable);
 
         StringBuilder builder = new StringBuilder();
         builder.append("[============================================================================================]");
+        builder.append("\n");
         builder.append("\n *************");
         String time = getDateFormat().format(new Date(System.currentTimeMillis()));
         builder.append(time).append(" 遇到崩溃，设备信息如下：*************").append("\n");
-        Map<String,String> allInfos = DeviceInfo.BuildInfo.allBuildInfos();
-        for (Map.Entry<String, String> entry : allInfos.entrySet()) {
+        Map<String, String> allBuildInfos = DeviceInfo.BuildInfo.allBuildInfos();
+        for (Map.Entry<String, String> entry : allBuildInfos.entrySet()) {
             builder.append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
         }
 
@@ -60,6 +57,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         builder.append(cause);
         builder.append("\n");
         builder.append("[============================================================================================]");
+        builder.append("\n\n\n");
         return builder.toString();
     }
 

@@ -1,18 +1,15 @@
 package me.ricky.ospanalyze;
 
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.Map;
 
 import me.li.ricky.common.utils.DeviceInfo;
-import me.li.ricky.common.utils.FileUtil;
+import me.li.ricky.common.utils.IOUtil;
 import me.li.ricky.common.utils.T;
 import me.ricky.ospanalyze.log.LogActivity;
 import me.ricky.ospanalyze.sp.SpUtilsActivity;
@@ -81,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String filePath = "/a/b/c/d/abc.txt";
-        builder.append(FileUtil.getFileSuffix(filePath));
+        builder.append(IOUtil.getFileSuffix(filePath));
 
         mTextView.setText(builder.toString());
     }

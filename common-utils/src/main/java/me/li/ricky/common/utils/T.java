@@ -22,7 +22,7 @@ public class T {
     }
 
     /** 自定义Toast View */
-    public static void makeTextShortCenter(View customView, int gravity) {
+    public static void makeTextByView(View customView, int gravity) {
         Toast toast = new Toast(sContext);
         toast.setView(customView);
         toast.setDuration(Toast.LENGTH_SHORT);
@@ -65,7 +65,7 @@ public class T {
     }
 
     private static void show(final int messageResId, final int duration, final int gravity) {
-        check();
+        checkNull();
 
         showOnUiThread(new Runnable() {
             @Override
@@ -80,7 +80,7 @@ public class T {
     }
 
     private static void show(final String message, final int duration, final int gravity) {
-        check();
+        checkNull();
 
         showOnUiThread(new Runnable() {
             @Override
@@ -94,12 +94,6 @@ public class T {
         });
     }
 
-
-    private static void check() {
-        if (sContext == null) {
-            throw new NullPointerException("Context 为空，请先调用 T.register(Context)");
-        }
-    }
 
     private static void showOnUiThread(Runnable action) {
         if (inUiThread()) {
@@ -115,6 +109,12 @@ public class T {
 
     private static void runOnUiThread(Runnable action) {
         mHandler.post(action);
+    }
+
+    private static void checkNull() {
+        if (sContext == null){
+            throw new NullPointerException("请先在 Application 里的 onCreate() 调用 T.register(Context) , 对 T 进行注册");
+        }
     }
 
 }

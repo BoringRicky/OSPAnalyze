@@ -26,12 +26,16 @@ public class SpUtilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_utils);
-//        mUtils = SpUtil.init(this);
-        mUtils = SpUtil.init(this,"sp_test");
+
+        //最好在 Application里的onCreate() 调用
+        SpUtil.register(this);
+
+//        mUtils = SpUtil.init();
+        mUtils = SpUtil.init("sp_test");
         mTvSpName = findViewById(R.id.tv_sp_name);
         mTvSpContent = findViewById(R.id.tv_sp_content);
 
-        mTvSpName.setText("SharedPreferences 文件名称 ： "+SpUtil.getCurrentSpName());
+        mTvSpName.setText("SharedPreferences 文件名称 ： " + SpUtil.getCurrentSpName());
     }
 
     public void onPutCommit(View view) {

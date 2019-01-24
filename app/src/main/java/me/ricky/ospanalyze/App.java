@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import me.li.ricky.common.utils.CrashHandler;
+import me.li.ricky.common.utils.SpUtil;
 import me.li.ricky.common.utils.T;
 import me.ricky.ospanalyze.log.timber.trees.CrashReportingTree;
 import me.ricky.ospanalyze.log.timber.trees.DebugTree;
@@ -29,9 +30,10 @@ public class App extends Application {
         Timber.plant(new DebugTree());
         Timber.plant(new CrashReportingTree());
 
-        CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance();
 
         T.register(sContext);
+        SpUtil.register(sContext);
 
     }
 
