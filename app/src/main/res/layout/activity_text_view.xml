@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#3F51B5"
+            android:drawableLeft="@drawable/ic_launcher_round"
+            android:drawableTop="@drawable/ic_launcher_round"
+            android:drawableRight="@drawable/ic_launcher_round"
+            android:drawableBottom="@drawable/ic_launcher_round"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="TextView 文本显示"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tv_drawable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:background="#3F51B5"
+            android:drawableLeft="@drawable/ic_launcher_round"
+            android:drawableTop="@drawable/ic_launcher_round"
+            android:drawableRight="@drawable/ic_launcher_round"
+            android:drawableBottom="@drawable/ic_launcher_round"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="TextView 文本显示"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_single_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_html"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_spanned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/tv_spannable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/tv_spannable_string_builder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/tv_bullet_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/tv_custom_bullet_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/tv_clickable_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/tv_image_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_friend_like_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/tv_relative_size_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/tv_subscript_span"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

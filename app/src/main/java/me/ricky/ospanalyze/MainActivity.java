@@ -13,6 +13,7 @@ import me.li.ricky.common.utils.IOUtil;
 import me.li.ricky.common.utils.T;
 import me.ricky.ospanalyze.log.LogActivity;
 import me.ricky.ospanalyze.sp.SpUtilsActivity;
+import me.ricky.ospanalyze.textview.TextViewActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -85,5 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onToast(View view) {
         T.showLong("Toast show long");
+    }
+
+    public void clickTextViewTest(View view) {
+        startActivity(new Intent(this, TextViewActivity.class));
     }
 }
